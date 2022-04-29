@@ -11,6 +11,7 @@ import CaboSanLucasJPG from "./../../assets/cabosanlucas.jpg";
 import CroatiaJPG from "./../../assets/croatia.jpg";
 import GreeceJPG from "./../../assets/greece.jpg";
 import AlbaniaJPG from "./../../assets/albania.jpg";
+import { Link } from "react-router-dom";
 
 const locationData = [
   { id: 1, location: "Bora Bora", isFeatured: true, img: BoraBoraJPG },
@@ -24,20 +25,24 @@ const locationData = [
   { id: 4, location: "Croatia", isFeatured: false, img: CroatiaJPG },
   { id: 5, location: "Greece", isFeatured: false, img: GreeceJPG },
   { id: 6, location: "Albania", isFeatured: true, img: AlbaniaJPG },
+  { id: 7, location: "Croatia", isFeatured: false, img: CroatiaJPG },
+  { id: 8, location: "Greece", isFeatured: false, img: GreeceJPG },
+  { id: 9, location: "Albania", isFeatured: true, img: AlbaniaJPG },
 ];
 
-const Locations = () => {
+const Locations = ({ page }) => {
+  const mapData = !page ? locationData.slice(0, 6) : locationData;
   return (
     <div className={classes.container}>
-      <div className={classes.loctaions}>
-        <div className={classes.loctaions__content}>
+      <div className={`${classes.locations} ${page ? classes.page : ""}`}>
+        <div className={classes.locations__content}>
           <h2 className={classes.locations__content__title}>
             Discover a Tropic
           </h2>
-          <div className={classes.loctaions__content__gallery}>
-            {locationData.map(({ id, location, isFeatured, img }) => {
+          <div className={classes.locations__content__gallery}>
+            {mapData.map(({ id, location, isFeatured, img }) => {
               return (
-                <div className={classes.gallery__item}>
+                <div className={classes.gallery__item} key={id}>
                   <img
                     src={img}
                     alt={location}
@@ -57,11 +62,13 @@ const Locations = () => {
               );
             })}
           </div>
-          <div className={classes.loctaions__content__viewmore}>
-            <a href="/">
-              view more <BsArrowRight />/
-            </a>
-          </div>
+          {!page && (
+            <div className={classes.locations__content__viewmore}>
+              <Link to="/locations">
+                view more <BsArrowRight />/
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </div>
